@@ -147,7 +147,6 @@ if [ "$OS" = "Ubuntu" ]; then
     echo "Installing music prerequisites..."
     sudo add-apt-repository ppa:chris-lea/libsodium -y
     sudo apt-get update
-    sudo apt-get upgrade -y
     sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev snapd -y
     sudo snap install ffmpeg
     echo ""

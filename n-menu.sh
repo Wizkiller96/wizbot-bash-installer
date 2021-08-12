@@ -21,37 +21,38 @@ while [ $choice -eq 9 ]; do
     echo "3. Run NadekoBot"
 	echo "4. Run NadekoBot with Auto Restart in this session"
 	echo "5. Exit"
-	echo -n "Choose [1] to Download, [2 or 3] to Run, [6 and 7] for pm2 setup/startup (see README) or [8] to Exit."
+	echo -n "Type in the number of an option and press ENTER"
+	echo ""
 	read choice	
-
-	if [ $choice -eq 1 ] ; then
+	
+	if [[ $choice -eq 1 ]] ; then
 		echo ""
 		echo "Downloading the prerequisites installer script"
 		wget -N "$base_url/$script_prereq" && bash "$root/$script_prereq"
 		echo ""
 		choice=9
-	elif [ $choice -eq 2 ] ; then
+	elif [[] $choice -eq 2 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot installer script"
 		wget -N "$base_url/$script_install" && bash "$root/$script_install"
 		echo ""
 		sleep 2s
 		choice=9
-	elif [ $choice -eq 3 ] ; then
+	elif [[ $choice -eq 3 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot run script"
 		wget -N "$base_url/$script_run" && bash "$root/$script_run"
 		echo ""
 		sleep 2s
 		bash "$root/linuxAIO.sh"
-	elif [ $choice -eq 4 ] ; then
+	elif [[ $choice -eq 4 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot run and auto restart script"
 		wget -N "$base_url/$script_arn" && bash "$root/$script_arn"
 		echo ""
 		sleep 2s
 		bash "$root/linuxAIO.sh"
-	elif [ $choice -eq 5 ] ; then
+	elif [[ $choice -eq 5 ]] ; then
 		echo ""
 		echo "Exiting..."
 		cd "$root"
