@@ -165,7 +165,6 @@ elif [ "$OS" = "Debian" ]; then
         sudo snap install ffmpeg
         sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
-	elif [ "$SVER" = "9" ]; then
 	else
 		echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact NadekoBot's support on Discord with screenshot."
 		rm nadekoautoinstaller.sh
@@ -183,7 +182,6 @@ elif [ "$OS" = "LinuxMint" ]; then
         sudo snap install ffmpeg
         sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
-	elif [ "$SVER" = "17" ]; then
     fi
 elif [ "$OS" = "CentOS" ]; then
 	if [ "$VER" = "7" ]; then
