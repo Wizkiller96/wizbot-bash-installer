@@ -24,14 +24,14 @@ while [ $choice -eq 9 ]; do
 	echo -n "Type in the number of an option and press ENTER"
 	echo ""
 	read choice	
-	
+
 	if [[ $choice -eq 1 ]] ; then
 		echo ""
 		echo "Downloading the prerequisites installer script"
 		wget -N "$base_url/$script_prereq" && bash "$root/$script_prereq"
 		echo ""
 		choice=9
-	elif [[] $choice -eq 2 ]] ; then
+	elif [[ $choice -eq 2 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot installer script"
 		wget -N "$base_url/$script_install" && bash "$root/$script_install"
