@@ -65,4 +65,5 @@ while [ $choice -eq 9 ]; do
 done
 
 cd "$root"
+rm "$root/n-menu.sh"
 exit 0

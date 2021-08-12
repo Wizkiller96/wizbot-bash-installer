@@ -227,6 +227,5 @@ read -n 1 -s -p "Press any key to continue..."
 sleep 2
 
 cd "$root"
-rm "$root/nadekoautoinstaller.sh"
-
+rm "$root/n-prereq.sh"
 exit 0

@@ -16,5 +16,5 @@ dotnet run NadekoBot.dll
 echo "Done"
 
 cd "$root"
-rm "$root/n-run.sh"
+rm "$root/n-arn.sh"
 exit 0
