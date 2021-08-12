@@ -56,7 +56,7 @@ while [ $choice -eq 9 ]; do
 		echo "Exiting..."
 		cd "$root"
 		exit 0
-	else then
+	else
 		echo "Invalid choice"
 		echo ""
 		choice=9
