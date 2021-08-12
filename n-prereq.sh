@@ -138,32 +138,48 @@ done
 echo ""
 
 # Install DOTNET
-curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin -c 5.0
 
 if [ "$OS" = "Ubuntu" ]; then
+    sudo apt-get update
+
+	echo "Installing snap"
+	sudo apt-get install snapd
+
+	echo "Installing dotnet"
+	sudo snap install dotnet-sdk --classic --channel=5.0
+	sudo snap alias dotnet-sdk.dotnet dotnet
+	
     echo "Installing Git, Redis and Tmux..."
     sudo apt-get install git tmux redis-server -y
 
     echo "Installing music prerequisites..."
     sudo add-apt-repository ppa:chris-lea/libsodium -y
-    sudo apt-get update
-    sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev snapd -y
+    sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y
     sudo snap install ffmpeg
     echo ""
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Debian" ]; then
 	if [ "$SVER" = "8" ]; then
-		echo "Installing Git, Redis and Tmux..."
-        sudo apt-get install git tmux redis-server -y
+		sudo apt-get update
 
-        echo "Installing music prerequisites..."
-        sudo add-apt-repository ppa:chris-lea/libsodium -y
-        sudo apt-get update
-        sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev snapd -y
-        sudo snap install ffmpeg
-        sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
-        sudo chmod a+rx /usr/local/bin/youtube-dl
+		echo "Installing snap"
+		sudo apt-get install snapd
+
+		echo "Installing dotnet"
+		sudo snap install dotnet-sdk --classic --channel=5.0
+		sudo snap alias dotnet-sdk.dotnet dotnet
+		
+		echo "Installing Git, Redis and Tmux..."
+		sudo apt-get install git tmux redis-server -y
+
+		echo "Installing music prerequisites..."
+		sudo add-apt-repository ppa:chris-lea/libsodium -y
+		sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y
+		sudo snap install ffmpeg
+		echo ""
+		sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+		sudo chmod a+rx /usr/local/bin/youtube-dl
 	else
 		echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact NadekoBot's support on Discord with screenshot."
 		rm nadekoautoinstaller.sh
