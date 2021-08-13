@@ -140,14 +140,24 @@ echo ""
 # Install DOTNET
 
 if [ "$OS" = "Ubuntu" ]; then
-    sudo apt-get update
 
-	echo "Installing snap"
-	sudo apt-get install snapd
+	# Setup dotnet for ubuntu
 
 	echo "Installing dotnet"
-	sudo snap install dotnet-sdk --classic --channel=5.0
-	sudo snap alias dotnet-sdk.dotnet dotnet
+	wget "https://packages.microsoft.com/config/ubuntu/$SVER/packages-microsoft-prod.deb" -O packages-microsoft-prod.deb
+	sudo dpkg -i packages-microsoft-prod.deb
+	rm packages-microsoft-prod.deb
+
+    sudo apt-get update
+	sudo apt-get install dotnet
+
+
+	# echo "Installing snap"
+	# sudo apt-get install snapd
+
+	# echo "Installing dotnet"
+	# sudo snap install dotnet-sdk --classic --channel=5.0
+	# sudo snap alias dotnet-sdk.dotnet dotnet
 	
     echo "Installing Git, Redis and Tmux..."
     sudo apt-get install git tmux redis-server -y
@@ -155,8 +165,8 @@ if [ "$OS" = "Ubuntu" ]; then
     echo "Installing music prerequisites..."
     sudo add-apt-repository ppa:chris-lea/libsodium -y
     sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y
-    sudo snap install ffmpeg
     echo ""
+   sudo apt-get install ffmpeg
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Debian" ]; then
