@@ -7,8 +7,13 @@ function detect_OS_ARCH_VER_BITS {
 	ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
 	if [ -f /etc/lsb-release ]; then
 	    . /etc/lsb-release
-	    OS=$DISTRIB_ID
-	    VER=$DISTRIB_RELEASE
+		if [ "$DISTRIB_ID" = "" ]; then
+			OS=$(uname -s)
+			VER=$(uname -r)
+		else
+			OS=$DISTRIB_ID
+			VER=$DISTRIB_RELEASE
+		fi
 	elif [ -f /etc/debian_version ]; then
 	    OS=Debian  # XXX or Ubuntu??
 	    VER=$(cat /etc/debian_version)
@@ -62,36 +67,15 @@ if [ "$BITS" = 32 ]; then
 fi
 
 if [ "$OS" = "Ubuntu" ]; then
-	if [ "$VER" = "12.04" ]; then
-		supported=0
-	elif [ "$VER" = "14.04" ]; then
-		supported=1
-	elif [ "$VER" = "16.04" ]; then
-		supported=1
-	elif [ "$VER" = "16.10" ]; then
-		supported=1
-	elif [ "$VER" = "17.04" ]; then
-		supported=1
-	elif [ "$VER" = "17.10" ]; then
-		supported=1
-	elif [ "$VER" = "18.04" ]; then
+	supported_ver=("14.04" "16.04" "16.10" "17.04" "18.04" "19.04" "19.10" "20.10")
+
+	if [[ " ${supported_ver[@]} " =~ " ${VER} " ]]; then		
 		supported=1
 	elif [ "$VER" = "18.10" ]; then
 		supported=1
 		VER=18.04
 		echo -e "Using Ubuntu 18.04 Installation scripts.\nIf the installation fails contact NadekoBot support."
 		sleep 5
-	elif [ "$VER" = "19.04" ]; then
-		supported=1
-	elif [ "$VER" = "19.10" ]; then
-		supported=1
-		#VER=19.04
-		#echo -e "Using Ubuntu 19.04 Installation scripts.\nIf the installation fails contact NadekoBot support."
-		#sleep 5
-	elif [ "$VER" = "20.04" ]; then
-		supported=1
-	elif [ "$VER" = "20.10" ]; then
-		supported=1
 	else
 		supported=0
 	fi
@@ -99,11 +83,9 @@ fi
 
 if [ "$OS" = "LinuxMint" ]; then
 	SVER=$( echo $VER | grep -oP "[0-9]+" | head -1 )
-	if [ "$SVER" = "18" ]; then
-		supported=1
-	elif [ "$SVER" = "17" ]; then
-		supported=1
-	elif [ "$SVER" = "2" ]; then
+	supported_ver=("18" "17" "2")
+
+	if [[ " ${supported_ver[@]} " =~ " ${SVER} " ]]; then		
 		supported=1
 	else
 		supported=0
@@ -166,7 +148,7 @@ if [ "$OS" = "Ubuntu" ]; then
     sudo add-apt-repository ppa:chris-lea/libsodium -y
     sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y
     echo ""
-   sudo apt-get install ffmpeg
+    sudo apt-get install ffmpeg
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Debian" ]; then
