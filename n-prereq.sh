@@ -175,20 +175,24 @@ elif [ "$OS" = "Debian" ]; then
     echo ""
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     sudo chmod a+rx /usr/local/bin/youtube-dl
+elif [ "$OS" = "Fedora" ]; then
+    sudo dnf -y install dotnet-sdk-5.0
+    sudo dnf -y install ffmpeg
+    
+    sudo dnf -y install redis
+    sudo systemctl enable --now redis
+    # Todo opus/sodium
+    wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+    chmod a+rx /usr/local/bin/youtube-dl
+elif [ "$OS" = "openSUSE" ]; then
+    
+    sudo zypper install libicu
+    sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+    wget https://packages.microsoft.com/config/opensuse/15/prod.repo
+    sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
+    sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
+    sudo zypper install dotnet-sdk-5.0
 
-elif [ "$OS" = "LinuxMint" ]; then
-    if [ "$SVER" = "18" ]; then
-        echo "Installing Git, Redis and Tmux..."
-        sudo apt-get install git tmux redis-server -y
-
-        echo "Installing music prerequisites..."
-        sudo add-apt-repository ppa:chris-lea/libsodium -y
-        sudo apt-get update
-        sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev snapd -y
-        sudo snap install ffmpeg
-        sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
-        sudo chmod a+rx /usr/local/bin/youtube-dl
-    fi
 elif [ "$OS" = "CentOS" ]; then
     if [ "$VER" = "7" ]; then
         echo ""
@@ -209,6 +213,19 @@ elif [ "$OS" = "CentOS" ]; then
         echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact NadekoBot's support on Discord with screenshot."
         rm n-prereq.sh
         exit 1
+    fi
+elif [ "$OS" = "LinuxMint" ]; then
+    if [ "$SVER" = "18" ]; then
+        echo "Installing Git, Redis and Tmux..."
+        sudo apt-get install git tmux redis-server -y
+
+        echo "Installing music prerequisites..."
+        sudo add-apt-repository ppa:chris-lea/libsodium -y
+        sudo apt-get update
+        sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev snapd -y
+        sudo snap install ffmpeg
+        sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+        sudo chmod a+rx /usr/local/bin/youtube-dl
     fi
 fi
 
