@@ -192,7 +192,6 @@ elif [ "$OS" = "openSUSE" ]; then
     sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
     sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
     sudo zypper install dotnet-sdk-5.0
-
 elif [ "$OS" = "CentOS" ]; then
     if [ "$VER" = "7" ]; then
         echo ""
