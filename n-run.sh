@@ -12,7 +12,7 @@ fi
 
 cd "$root/nadekobot/output"
 echo "Running NadekoBot. Please wait."
-dotnet run NadekoBot.dll
+dotnet NadekoBot.dll
 echo "Done"
 
 cd "$root"
