@@ -28,7 +28,7 @@ then
 	mv NadekoBot nadekobot
 	base_migration_folder="nadekobot/src/NadekoBot/bin/Release/netcoreapp2.1"
 	mkdir nadekobot/output
-	mv -f "$base_migration_folder/data" nadekobot/output/data
+	cp -rf "$base_migration_folder/data" nadekobot/output/data
 	cp nadekobot/src/NadekoBot/credentials.json nadekobot/output
 
 	echo "Old data migration has been set up. However, you must run options 1, 2 and 3 (in that order) for the migration to properly take effect."
