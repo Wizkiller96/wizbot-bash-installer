@@ -126,7 +126,8 @@ if [ "$OS" = "Ubuntu" ]; then
     rm packages-microsoft-prod.deb
 
     sudo apt-get update;
-    sudo apt-get install -y apt-transport-https && sudo apt-get update && sudo apt-get install -y dotnet-sdk-5.0
+    sudo apt-get install -y apt-transport-https && sudo apt-get update;
+    sudo apt-get install -y dotnet-sdk-5.0;
     
     echo "Installing Git, Redis and Tmux..."
     sudo apt-get install git tmux redis-server -y
@@ -192,6 +193,13 @@ elif [ "$OS" = "openSUSE" ]; then
     sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
     sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
     sudo zypper install dotnet-sdk-5.0
+
+    echo "Installing music prerequisites..."
+    sudo zypper in -y libicu ffmpeg libopus0 libopus-devel opus opus-tools
+    
+    echo "Installing git, tmux..."
+    sudo zypper in -y git tmux
+
 elif [ "$OS" = "CentOS" ]; then
     if [ "$VER" = "7" ]; then
         echo ""
