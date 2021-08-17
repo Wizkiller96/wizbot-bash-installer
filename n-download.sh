@@ -57,5 +57,5 @@ mv -rf nadekobot/output/data/strings nadekobot/output/data/strings_old 1>/dev/nu
 mv -rf nadekobot/output/data/strings_new nadekobot/output/data/strings 1>/dev/null 2>&1
 
 cd "$root"
-rm "$root/n-install.sh"
+rm "$root/n-download.sh"
 exit 0

@@ -10,7 +10,7 @@ base_url="https://gitlab.com/Kwoth/nadeko-bash-installer/-/raw/master"
 
 script_menu="n-menu.sh"
 script_prereq="n-prereq.sh"
-script_install="n-install.sh"
+script_install="n-download.sh"
 script_run="n-run.sh"
 script_arn="n-arn.sh"
 
