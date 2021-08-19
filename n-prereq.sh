@@ -203,7 +203,6 @@ elif [ "$OS" = "openSUSE" ]; then
 elif [ "$OS" = "CentOS" ]; then
     if [ "$VER" = "7" ]; then
         echo ""
-
         yum install sudo -y
         sudo yum install libunwind libicu -y
         sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm

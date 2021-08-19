@@ -4,15 +4,14 @@ root=$(pwd)
 
 if hash dotnet 2>/dev/null
 then
-	echo "Dotnet installed."
+	echo "Dotnet is installed."
 else
-	echo "Dotnet is not installed. Please install dotnet."
+	echo "Dotnet is not installed. Please install preqrequisites (option 1)."
 	exit 1
 fi
 
-cd "$root/nadekobot/output"
 echo "Running NadekoBot. Please wait."
-dotnet run NadekoBot.dll
+while :; do cd "$root/nadekobot/output" && dotnet run NadekoBot.dll && youtube-dl -U; sleep 5s; done
 echo "Done"
 
 cd "$root"
