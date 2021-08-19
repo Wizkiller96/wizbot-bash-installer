@@ -193,12 +193,12 @@ elif [ "$OS" = "openSUSE" ]; then
     sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
     sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
     sudo zypper install dotnet-sdk-5.0
-
-    echo "Installing music prerequisites..."
-    sudo zypper in -y libicu ffmpeg libopus0 libopus-devel opus opus-tools
     
     echo "Installing git, tmux..."
     sudo zypper in -y git tmux
+
+    echo "Installing music prerequisites..."
+    sudo zypper in -y libicu ffmpeg libopus0 libopus-devel opus opus-tools
 
 elif [ "$OS" = "CentOS" ]; then
     if [ "$VER" = "7" ]; then

@@ -33,11 +33,9 @@ mv -f nadekobot_old/output/credentials.json nadekobot/output/credentials.json 1>
 # however, old user's strings will be backed up to strings_old
 
 # (C) backup new strings to reverse rewrite
-rm -rf nadekobot/output/data/strings_old 1>/dev/null 2>&1 # remove old backup preemptively to avoid copying what will get overwritten with new backup
 mv -f nadekobot/output/data/strings nadekobot/output/data/strings_new 1>/dev/null 2>&1
 
 # (B) backup new aliases to reverse rewrite
-rm -rf nadekobot/output/data/aliases_old.yml 1>/dev/null 2>&1
 mv -f nadekobot/output/data/aliases.yml nadekobot/output/data/aliases_new.yml 1>/dev/null 2>&1
 
 # (A) move old database
