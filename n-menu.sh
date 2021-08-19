@@ -50,12 +50,14 @@ while [ $choice -eq 9 ]; do
 	if [[ $choice -eq 1 ]] ; then
 		echo ""
 		echo "Downloading the prerequisites installer script"
+		rm "$root/$script_prereq" 1>/dev/null 2>&1
 		wget -N "$base_url/$script_prereq" && bash "$root/$script_prereq"
 		echo ""
 		choice=9
 	elif [[ $choice -eq 2 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot installer script"
+		rm "$root/$script_install" 1>/dev/null 2>&1
 		wget -N "$base_url/$script_install" && bash "$root/$script_install"
 		echo ""
 		sleep 2s
@@ -63,6 +65,7 @@ while [ $choice -eq 9 ]; do
 	elif [[ $choice -eq 3 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot run script"
+		rm "$root/$script_run" 1>/dev/null 2>&1
 		wget -N "$base_url/$script_run" && bash "$root/$script_run"
 		echo ""
 		sleep 2s
@@ -70,6 +73,7 @@ while [ $choice -eq 9 ]; do
 	elif [[ $choice -eq 4 ]] ; then
 		echo ""
 		echo "Downloading the NadekoBot run and auto restart script"
+		rm "$root/$script_arn" 1>/dev/null 2>&1
 		wget -N "$base_url/$script_arn" && bash "$root/$script_arn"
 		echo ""
 		sleep 2s
