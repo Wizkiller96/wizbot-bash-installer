@@ -11,7 +11,7 @@ else
 fi
 
 echo "Running NadekoBot. Please wait."
-while :; do cd "$root/nadekobot/output" && dotnet run NadekoBot.dll && youtube-dl -U; sleep 5s; done
+while :; do cd "$root/nadekobot/output" && dotnet NadekoBot.dll && youtube-dl -U; sleep 5s; done
 echo "Done"
 
 cd "$root"
