@@ -181,10 +181,13 @@ elif [ "$OS" = "Debian" ]; then
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Fedora" ]; then
     sudo dnf -y install dotnet-sdk-5.0
-    sudo dnf -y install ffmpeg git
-    
+    sudo dnf -y install git
+
     sudo dnf -y install redis
     sudo systemctl enable --now redis
+
+    sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+    sudo dnf -y install ffmpeg
     sudo dnf -y install opus-tools opus libsodium
     wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     chmod a+rx /usr/local/bin/youtube-dl
