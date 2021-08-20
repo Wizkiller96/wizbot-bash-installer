@@ -181,7 +181,7 @@ elif [ "$OS" = "Debian" ]; then
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Fedora" ]; then
     sudo dnf -y install dotnet-sdk-5.0
-    sudo dnf -y install ffmpeg
+    sudo dnf -y install ffmpeg git
     
     sudo dnf -y install redis
     sudo systemctl enable --now redis
