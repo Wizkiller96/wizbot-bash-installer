@@ -39,7 +39,7 @@ fi
 while [ $choice -eq 9 ]; do
 	
 	echo "1. Install Prerequisites"
-	echo "2. Install NadekoBot"
+	echo "2. Download NadekoBot"
     echo "3. Run NadekoBot"
 	echo "4. Run NadekoBot with Auto Restart in this session"
 	echo "5. Exit"

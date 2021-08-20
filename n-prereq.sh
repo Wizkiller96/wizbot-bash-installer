@@ -21,6 +21,9 @@ function detect_OS_ARCH_VER_BITS {
     elif [ -f /etc/centos-release ]; then
         OS=CentOS
         VER=$( cat /etc/centos-release | grep -oP "[0-9]+" | head -1 )
+    elif [ -f /etc/fedora-release ]; then
+        OS=Fedora
+        VER=$( cat /etc/fedora-release | grep -oP "[0-9]+" | head -1 )
     else
         OS=$(uname -s)
         VER=$(uname -r)
@@ -182,7 +185,7 @@ elif [ "$OS" = "Fedora" ]; then
     
     sudo dnf -y install redis
     sudo systemctl enable --now redis
-    # Todo opus/sodium
+    sudo dnf -y install opus-tools opus libsodium
     wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "openSUSE" ]; then
