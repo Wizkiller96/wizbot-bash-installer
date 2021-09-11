@@ -27,7 +27,7 @@ then
 	echo "Migrating 2.x to 1.9"
 	mv NadekoBot nadekobot
 	base_migration_folder="nadekobot/src/NadekoBot/bin/Release/netcoreapp2.1"
-	mkdir nadekobot/output
+	mkdir -p nadekobot/output/data/
 	# db is in bin/Release
 	cp "$base_migration_folder/data/NadekoBot.db" nadekobot/output/data/
 	# data is in NadekoBot/data
