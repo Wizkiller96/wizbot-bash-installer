@@ -42,7 +42,7 @@ mv -f nadekobot/output/data/aliases.yml nadekobot/output/data/aliases_new.yml 1>
 mv -f nadekobot_old/output/data/NadekoBot.db nadekobot/output/data/NadekoBot.db 1>/dev/null 2>&1
 
 # move old data folder contents (and overwrite)
-cp -RT nadekobot_old/output/data/ nadekobot/output/data/ 1>/dev/null 2>&1
+cp -RT nadekobot_old/output/data/ nadekobot/output/data 1>/dev/null 2>&1
 
 # (B) backup old aliases
 mv -f nadekobot/output/data/aliases.yml nadekobot/output/data/aliases_old.yml 1>/dev/null 2>&1
@@ -50,9 +50,9 @@ mv -f nadekobot/output/data/aliases.yml nadekobot/output/data/aliases_old.yml 1>
 mv -f nadekobot/output/data/aliases_new.yml nadekobot/output/data/aliases.yml 1>/dev/null 2>&1
 
 # (C) backup old strings
-mv -rf nadekobot/output/data/strings nadekobot/output/data/strings_old 1>/dev/null 2>&1
+mv -f nadekobot/output/data/strings nadekobot/output/data/strings_old 1>/dev/null 2>&1
 # (C) restore new strings
-mv -rf nadekobot/output/data/strings_new nadekobot/output/data/strings 1>/dev/null 2>&1
+mv -f nadekobot/output/data/strings_new nadekobot/output/data/strings 1>/dev/null 2>&1
 
 cd "$root"
 rm "$root/n-download.sh"
