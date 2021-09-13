@@ -33,7 +33,11 @@ mv -f nadekobot_old/output/credentials.json nadekobot/output/credentials.json 1>
 # however, old user's strings will be backed up to strings_old
 
 # (C) backup new strings to reverse rewrite
+rm -rf nadekobot/output/data/strings_new 1>/dev/null 2>&1
 mv -fT nadekobot/output/data/strings nadekobot/output/data/strings_new 1>/dev/null 2>&1
+# (C) delete old strings backup
+rm -rf nadekobot_old/output/data/strings_old 1>/dev/null 2>&1
+rm -rf nadekobot_old/output/data/strings_new 1>/dev/null 2>&1
 
 # (B) backup new aliases to reverse rewrite
 mv -f nadekobot/output/data/aliases.yml nadekobot/output/data/aliases_new.yml 1>/dev/null 2>&1
@@ -50,9 +54,9 @@ mv -f nadekobot/output/data/aliases.yml nadekobot/output/data/aliases_old.yml 1>
 mv -f nadekobot/output/data/aliases_new.yml nadekobot/output/data/aliases.yml 1>/dev/null 2>&1
 
 # (C) backup old strings
-mv -fT nadekobot/output/data/strings nadekobot/output/data/strings_old 1>/dev/null 2>&1
+mv -f nadekobot/output/data/strings nadekobot/output/data/strings_old 1>/dev/null 2>&1
 # (C) restore new strings
-mv -fT nadekobot/output/data/strings_new nadekobot/output/data/strings 1>/dev/null 2>&1
+mv -f nadekobot/output/data/strings_new nadekobot/output/data/strings 1>/dev/null 2>&1
 
 cd "$root"
 rm "$root/n-download.sh"
