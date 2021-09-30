@@ -6,7 +6,7 @@ echo ""
 root=$(pwd)
 choice=9
 	
-base_url="https://github.com/Wizkiller96/wizbot-bash-installer/-/raw/master"
+base_url="https://raw.githubusercontent.com/Wizkiller96/wizbot-bash-installer/master"
 
 script_menu="w-menu.sh"
 script_prereq="w-prereq.sh"
