@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Running NadekoBot"
+echo "Running WizBot"
 root=$(pwd)
 
 if hash dotnet 2>/dev/null
@@ -10,10 +10,10 @@ else
 	exit 1
 fi
 
-echo "Running NadekoBot. Please wait."
-while :; do cd "$root/nadekobot/output" && dotnet NadekoBot.dll && youtube-dl -U; sleep 5s; done
+echo "Running WizBot. Please wait."
+while :; do cd "$root/wizbot/output" && dotnet WizBot.dll && youtube-dl -U; sleep 5s; done
 echo "Done"
 
 cd "$root"
-rm "$root/n-arn.sh"
+rm "$root/w-arn.sh"
 exit 0

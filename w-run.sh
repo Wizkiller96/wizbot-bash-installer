@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Running NadekoBot"
+echo "Running WizBot"
 root=$(pwd)
 
 if hash dotnet 2>/dev/null
@@ -10,11 +10,11 @@ else
 	exit 1
 fi
 
-cd "$root/nadekobot/output"
-echo "Running NadekoBot. Please wait."
-dotnet NadekoBot.dll
+cd "$root/wizbot/output"
+echo "Running WizBot. Please wait."
+dotnet WizBot.dll
 echo "Done"
 
 cd "$root"
-rm "$root/n-run.sh"
+rm "$root/w-run.sh"
 exit 0

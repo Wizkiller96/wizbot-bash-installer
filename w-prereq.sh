@@ -64,8 +64,8 @@ export OS ARCH VER BITS
 if [ "$BITS" = 32 ]; then
     echo -e "Your system architecture is $ARCH which is unsupported to run Microsoft .NET Core SDK. \nYour OS: $OS \nOS Version: $VER"
     echo
-    printf "\e[1;31mPlease check the NadekoBot self-hosting guide for alternatives.\e[0m\n"
-    rm n-prereq.sh
+    printf "\e[1;31mPlease check the WizBot self-hosting guide for alternatives.\e[0m\n"
+    rm w-prereq.sh
     exit 1
 fi
 
@@ -77,7 +77,7 @@ if [ "$OS" = "Ubuntu" ]; then
     elif [ "$VER" = "18.10" ]; then
         supported=1
         VER=18.04
-        echo -e "Using Ubuntu 18.04 Installation scripts.\nIf the installation fails contact NadekoBot support."
+        echo -e "Using Ubuntu 18.04 Installation scripts.\nIf the installation fails contact WizBot support."
         sleep 5
     else
         supported=0
@@ -97,25 +97,25 @@ fi
 
 if [ "$supported" = 0 ]; then
     echo -e "Your OS $OS $VER $ARCH looks unsupported to run Microsoft .NET Core. \nExiting..."
-    printf "\e[1;31mContact NadekoBot's support on Discord with screenshot.\e[0m\n"
-    rm n-prereq.sh
+    printf "\e[1;31mContact WizBot's support on Discord with screenshot.\e[0m\n"
+    rm w-prereq.sh
     exit 1
 fi
 
 if [ "$OS" = "Linux" ]; then
-    echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact NadekoBot's support on Discord with screenshot."
-    rm n-prereq.sh
+    echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact WizBot's support on Discord with screenshot."
+    rm w-prereq.sh
     exit 1
 fi
 
-echo "This installer will download all of the required packages for NadekoBot. It will use about 350MB of space. This might take awhile to download if you do not have a good internet connection.\n"
+echo "This installer will download all of the required packages for WizBot. It will use about 350MB of space. This might take awhile to download if you do not have a good internet connection.\n"
 echo -e "Would you like to continue? \nYour OS: $OS \nOS Version: $VER \nArchitecture: $ARCH"
 
 while true; do
     read -p "[y/n]: " yn
     case $yn in
-        [Yy]* ) clear; echo Running NadekoBot Auto-Installer; sleep 2; break;;
-        [Nn]* ) echo Quitting...; rm n-prereq.sh && exit;;
+        [Yy]* ) clear; echo Running WizBot Auto-Installer; sleep 2; break;;
+        [Nn]* ) echo Quitting...; rm w-prereq.sh && exit;;
         * ) echo "Couldn't get that please type [y] for Yes or [n] for No.";;
     esac
 done
@@ -222,8 +222,8 @@ elif [ "$OS" = "CentOS" ]; then
         wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
         chmod a+rx /usr/local/bin/youtube-dl
     else
-        echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact NadekoBot's support on Discord with screenshot."
-        rm n-prereq.sh
+        echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact WizBot's support on Discord with screenshot."
+        rm w-prereq.sh
         exit 1
     fi
 elif [ "$OS" = "LinuxMint" ]; then
@@ -242,10 +242,10 @@ elif [ "$OS" = "LinuxMint" ]; then
 fi
 
 echo
-echo "NadekoBot Prerequisites Installation completed..."
+echo "WizBot Prerequisites Installation completed..."
 read -n 1 -s -p "Press any key to continue..."
 sleep 2
 
 cd "$root"
-rm "$root/n-prereq.sh"
+rm "$root/w-prereq.sh"
 exit 0
