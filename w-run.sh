@@ -1,13 +1,13 @@
-﻿#!/bin/sh
+#!/bin/sh
 echo "Running WizBot"
 root=$(pwd)
 
 if hash dotnet 2>/dev/null
 then
-    echo "Dotnet installed."
+	echo "Dotnet installed."
 else
-    echo "Dotnet is not installed. Please install dotnet."
-    exit 1
+	echo "Dotnet is not installed. Please install dotnet."
+	exit 1
 fi
 
 cd "$root/wizbot/output"

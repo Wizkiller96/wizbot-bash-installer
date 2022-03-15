@@ -1,37 +1,29 @@
-﻿#!/bin/bash -e
 # Install dotnet
+#!/bin/bash -e
 root=$(pwd)
 echo ""
 
 function detect_OS_ARCH_VER_BITS {
     ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
-
     if [ -f /etc/lsb-release ]; then
         . /etc/lsb-release
-    fi
-
-    if ! [ "$DISTRIB_ID" = "" ]; then
-        OS=$DISTRIB_ID
-        VER=$DISTRIB_RELEASE
+        if [ "$DISTRIB_ID" = "" ]; then
+            OS=$(uname -s)
+            VER=$(uname -r)
+        else
+            OS=$DISTRIB_ID
+            VER=$DISTRIB_RELEASE
+        fi
     elif [ -f /etc/debian_version ]; then
         OS=Debian  # XXX or Ubuntu??
         VER=$(cat /etc/debian_version)
-        SVER=$( grep -oP "[0-9]+" /etc/debian_version | head -1 )
+        SVER=$( cat /etc/debian_version | grep -oP "[0-9]+" | head -1 )
     elif [ -f /etc/centos-release ]; then
         OS=CentOS
-        VER=$( grep -oP "[0-9]+" /etc/centos-release | head -1 )
+        VER=$( cat /etc/centos-release | grep -oP "[0-9]+" | head -1 )
     elif [ -f /etc/fedora-release ]; then
         OS=Fedora
-        VER=$( grep -oP "[0-9]+" /etc/fedora-release | head -1 )
-    elif [ -f /etc/os-release ]; then
-        . /etc/os-release
-        if [ "$NAME" = "" ]; then
-          OS=$(uname -s)
-          VER=$(uname -r)
-        else
-          OS=$NAME
-          VER=$VERSION_ID
-        fi
+        VER=$( cat /etc/fedora-release | grep -oP "[0-9]+" | head -1 )
     else
         OS=$(uname -s)
         VER=$(uname -r)
@@ -78,10 +70,15 @@ if [ "$BITS" = 32 ]; then
 fi
 
 if [ "$OS" = "Ubuntu" ]; then
-    supported_ver=("16.04" "18.04" "20.04" "21.04" "21.10")
+    supported_ver=("14.04" "16.04" "16.10" "17.04" "18.04" "19.04" "19.10" "20.04" "20.10" "21.04")
 
-    if [[ "${supported_ver[*]}" =~ ${VER} ]]; then
+    if [[ " ${supported_ver[@]} " =~ " ${VER} " ]]; then        
         supported=1
+    elif [ "$VER" = "18.10" ]; then
+        supported=1
+        VER=18.04
+        echo -e "Using Ubuntu 18.04 Installation scripts.\nIf the installation fails contact WizBot support."
+        sleep 5
     else
         supported=0
     fi
@@ -89,9 +86,9 @@ fi
 
 if [ "$OS" = "LinuxMint" ]; then
     SVER=$( echo $VER | grep -oP "[0-9]+" | head -1 )
-    supported_ver=("19" "20")
+    supported_ver=("18" "17" "2")
 
-    if [[ "${supported_ver[*]}" =~ ${SVER} ]]; then
+    if [[ " ${supported_ver[@]} " =~ " ${SVER} " ]]; then        
         supported=1
     else
         supported=0
@@ -133,20 +130,27 @@ if [ "$OS" = "Ubuntu" ]; then
 
     sudo apt-get update;
     sudo apt-get install -y apt-transport-https && sudo apt-get update;
-    sudo apt-get install -y dotnet-sdk-6.0;
-
+    sudo apt-get install -y dotnet-sdk-5.0;
+    
     echo "Installing Git, Redis and Tmux..."
     sudo apt-get install git tmux redis-server -y
 
     echo "Installing music prerequisites..."
+    sudo add-apt-repository ppa:chris-lea/libsodium -y
     sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y
-    sudo apt install python
     echo ""
     sudo apt-get install ffmpeg
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Debian" ]; then
-    if [[ "$SVER" == "9" ]]; then
+    if [ "$SVER" = "8" ]; then
+        wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg
+        sudo mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/
+        wget https://packages.microsoft.com/config/debian/8/prod.list
+        sudo mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+        sudo chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg
+        sudo chown root:root /etc/apt/sources.list.d/microsoft-prod.list
+    elif [[ "$SVER" == "9" ]]; then
         wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg
         sudo mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/
         wget https://packages.microsoft.com/config/debian/9/prod.list
@@ -154,30 +158,29 @@ elif [ "$OS" = "Debian" ]; then
         sudo chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg
         sudo chown root:root /etc/apt/sources.list.d/microsoft-prod.list
     elif [[ "$SVER" == "10" ]]; then
-        su -
-        apt-get install sudo -y
         wget https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
         sudo dpkg -i packages-microsoft-prod.deb
         rm packages-microsoft-prod.deb
     fi
-
+    
     echo "Installing dotnet"
     sudo apt-get update; \
       sudo apt-get install -y apt-transport-https && \
       sudo apt-get update && \
-      sudo apt-get install -y dotnet-sdk-6.0
+      sudo apt-get install -y dotnet-sdk-5.0
 
     echo "Installing Git, Redis and Tmux..."
     sudo apt-get install git tmux redis-server -y
 
     echo "Installing music prerequisites..."
+    sudo add-apt-repository ppa:chris-lea/libsodium -y
     sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev -y
-    sudo apt-get install ffmpeg
+    sudo snap install ffmpeg
     echo ""
     sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
     sudo chmod a+rx /usr/local/bin/youtube-dl
 elif [ "$OS" = "Fedora" ]; then
-    sudo dnf -y install dotnet-sdk-6.0
+    sudo dnf -y install dotnet-sdk-5.0
     sudo dnf -y install git
 
     sudo dnf -y install redis
@@ -186,89 +189,56 @@ elif [ "$OS" = "Fedora" ]; then
     sudo dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
     sudo dnf -y install ffmpeg
     sudo dnf -y install opus-tools opus libsodium
-    sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
-    sudo chmod a+rx /usr/local/bin/youtube-dl
-elif [ "$OS" = "openSUSE Leap" ] || [ "$OS" = "openSUSE Tumbleweed" ]; then
-    echo -e "Installing dotnet..."
+    wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+    chmod a+rx /usr/local/bin/youtube-dl
+elif [ "$OS" = "openSUSE" ]; then
+    
+    sudo zypper install libicu
     sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
     wget https://packages.microsoft.com/config/opensuse/15/prod.repo
     sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
     sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
-    sudo zypper install -y dotnet-sdk-6.0
+    sudo zypper install dotnet-sdk-5.0
+    
+    echo "Installing git, tmux..."
+    sudo zypper in -y git tmux
 
-    echo -e "\nInstalling git, tmux..."
-    sudo zypper install -y git tmux
-
-    echo "Installing redis..."
-    sudo zypper install -y redis
-    # Instructions here: https://build.opensuse.org/package/view_file/openSUSE:Factory/redis/README.SUSE?expand=1
-    sudo cp -a /etc/redis/default.conf.example /etc/redis/wizbot.conf
-    sudo sudo install -d -o redis -g redis -m 0750 /var/lib/redis/wizbot/
-    sudo systemctl start redis@wizbot
-    sudo systemctl enable redis@wizbot
-
-    echo -e "\nInstalling music prerequisites..."
-    if [ "$OS" = "openSUSE Leap" ]; then
-      sudo zypper ar -G -cfp 90 'https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Leap_$releasever/' packman
-    else
-      sudo zypper ar -G -cfp 90 https://ftp.gwdg.de/pub/linux/misc/packman/suse/openSUSE_Tumbleweed/ packman
-    fi
-    sudo zypper install -y libicu ffmpeg libopus0 libopus-devel opus-tools youtube-dl
+    echo "Installing music prerequisites..."
+    sudo zypper in -y libicu ffmpeg libopus0 libopus-devel opus opus-tools
 
 elif [ "$OS" = "CentOS" ]; then
     if [ "$VER" = "7" ]; then
         echo ""
-        yum -y install sudo
-        sudo yum -y install libunwind libicu
+        yum install sudo -y
+        sudo yum install libunwind libicu -y
         sudo rpm -Uvh https://packages.microsoft.com/config/centos/7/packages-microsoft-prod.rpm
-        sudo yum -y install dotnet-sdk-6.0.x86_64
         sudo yum -y install http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm epel-release
-        sudo yum -y install \
-        https://repo.ius.io/ius-release-el7.rpm \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-        sudo yum -y localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
-        sudo yum -y install git222 opus opus-devel ffmpeg ffmpeg-devel tmux yum-utils ca-certificates wget
-        sudo yum -y install redis
+        sudo yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+        sudo yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+        sudo yum install git2u opus opus-devel ffmpeg ffmpeg-devel tmux yum-utils -y
+        sudo yum install redis -y
         sudo systemctl start redis
         sudo systemctl enable redis
-        sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
-        sudo chmod a+rx /usr/local/bin/youtube-dl
-    elif [ "$VER" = "8" ]; then
-        echo -e "*CentOS 8 will reach an early End Of Life (EOL) on December 31st, 2021. For more information, see the official CentOS Linux EOL page. Because of this, .NET 6 won't be supported on CentOS Linux 8."
-        rm w-prereq.sh
-        exit 1
+        wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
+        chmod a+rx /usr/local/bin/youtube-dl
     else
         echo -e "Your OS $OS $VER $ARCH probably can run Microsoft .NET Core. \nContact WizBot's support on Discord with screenshot."
         rm w-prereq.sh
         exit 1
     fi
 elif [ "$OS" = "LinuxMint" ]; then
+    if [ "$SVER" = "18" ]; then
         echo "Installing Git, Redis and Tmux..."
         sudo apt-get install git tmux redis-server -y
 
-        echo "Installing dotnet..."
-        if [ "$SVER" = "19" ]; then
-          wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-        else
-          wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-        fi
-        sudo dpkg -i packages-microsoft-prod.deb
-        rm packages-microsoft-prod.deb
-        sudo apt-get update;
-        sudo apt-get install -y apt-transport-https && sudo apt-get update;
-        sudo apt-get install -y dotnet-sdk-6.0;
-
         echo "Installing music prerequisites..."
+        sudo add-apt-repository ppa:chris-lea/libsodium -y
         sudo apt-get update
-        sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev ffmpeg -y
+        sudo apt-get install libopus0 opus-tools libopus-dev libsodium-dev snapd -y
+        sudo snap install ffmpeg
         sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl
         sudo chmod a+rx /usr/local/bin/youtube-dl
-elif [ "$OS" = "Darwin" ]; then
-    brew update
-    brew install wget git ffmpeg openssl opus opus-tools opusfile libffi libsodium tmux python youtube-dl redis
-    brew services start redis
-
-    brew install mono-libgdiplus
+    fi
 fi
 
 echo
